@@ -23,16 +23,34 @@ import "./App.css"
 //   );
 // }
 
-export default function Clock() {
-  const [time, setTime] = React.useState(null)
+// export default function Clock() {
+//   const [time, setTime] = React.useState(null)
 
-  React.useEffect(() => {
-    const id = setInterval(() => setTime(new Date()) ,1000)
+//   React.useEffect(() => {
+//     const id = setInterval(() => setTime(new Date()) ,1000)
 
-    return () => clearInterval(id)
-  }, [])
+//     return () => clearInterval(id)
+//   }, [])
 
-  if(time === null) return <p>loading...</p>
+//   if(time === null) return <p>loading...</p>
+
+  export default function Clock (){
+    const [time, setTime] = React.useState(null)
+
+    React.useEffect(() => {
+
+      const id = setInterval(() => {
+        setTime(new Date())
+      },1000)
+
+      return () => clearInterval(id)
+    },[time])
+
+
+
+
+
+    if(time === null) return <p>time is loading...</p>
 
   return (
     <section>
