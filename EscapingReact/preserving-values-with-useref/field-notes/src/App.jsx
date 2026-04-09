@@ -9,12 +9,23 @@ export default function FieldNotes() {
     "Just like a component enabled the composition and reusability of UI, hooks enabled the composition and reusability of non-visual logic."
   ]);
 
+  const inputRef = React.useRef(null)
+  const listEndRef = React.useRef(null);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
-    const newNote = formData.get("note");
+    const newNote = formData.get("note").trim();
+    if (!newNote) return;
+    setNotes([...notes, newNote])
+    inputRef.current.value = ""
+    
   };
+
+  React.useEffect(() => {
+    listEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [notes]);
 
   return (
     <article>
@@ -22,11 +33,17 @@ export default function FieldNotes() {
       <div>
         <ul>
           {notes.map((msg, index) => (
-            <li key={index}>{msg}</li>
+            <li
+              ref={index === notes.length - 1 ? listEndRef : null}
+              key={index}
+            >
+              {msg}
+            </li>
           ))}
         </ul>
         <form onSubmit={handleSubmit}>
           <input
+            ref={inputRef}
             required
             type="text"
             name="note"
