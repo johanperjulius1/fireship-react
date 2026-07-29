@@ -4,31 +4,34 @@ import * as React from "react";
 
 const tabContext = React.createContext({
   activeTabValue: null,
-  setActiveTabValue: () => {}
+  setActiveTabValue: () => { }
 });
 
-function TabProvider() {
-  return null;
+function TabProvider({ children }) {
+  const [activeTabValue, setActiveTabValue] = React.useState()
+
+  return <tabContext.Provider value={{activeTabValue, setActiveTabValue}}>{children}</tabContext.Provider>;
 }
 
 function TabTrigger({ value }) {
-  const activeTabValue = null;
-  const setActiveTabValue = () => {};
+  const {activeTabValue, setActiveTabValue} = React.useContext(tabContext);
 
-  const handleSetActiveTabValue = () => {};
+  const handleSetActiveTabValue = () => { 
+    setActiveTabValue(value)
+  };
 
   return (
     <button
       onClick={handleSetActiveTabValue}
       className={`tab ${activeTabValue === value ? "active" : ""}`}
     >
-      TODO
+      {value}
     </button>
   );
 }
 
 function TabContent() {
-  return null;
+  return <p>Hello from tabContent</p>;
 }
 
 export default function App() {
