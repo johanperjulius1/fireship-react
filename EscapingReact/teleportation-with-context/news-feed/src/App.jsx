@@ -6,8 +6,7 @@ const videoPlaybackContext = React.createContext({
 });
 
 function VideoPlaybackProvider({ children }) {
-  const playingVideoId = null;
-  const setPlayingVideoId = () => { };
+  const [playingVideoId, setPlayingVideoId] = React.useState(null);
 
   return <videoPlaybackContext.Provider value={{ playingVideoId, setPlayingVideoId }}>{children}</videoPlaybackContext.Provider>;
 }
@@ -17,7 +16,11 @@ function VideoItem({ videoId, title, poster, src }) {
   const videoIsActive = playingVideoId === videoId;
 
   const handleTogglePlay = () => {
-    setPlayingVideoId(!videoIsActive)
+    if (playingVideoId === videoId) {
+      setPlayingVideoId(null)
+    } else {
+      setPlayingVideoId(videoId)
+    }
   };
 
   return (
@@ -69,6 +72,7 @@ function NewsFeed() {
       <h1>News Feed</h1>
       <ul>{videos.map(video => {
         return <VideoItem
+          key={video.id}
           videoId={video.id}
           title={video.title}
           poster={video.poster}
