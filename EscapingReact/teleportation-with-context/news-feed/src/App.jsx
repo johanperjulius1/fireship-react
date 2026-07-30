@@ -2,20 +2,23 @@ import * as React from "react";
 
 const videoPlaybackContext = React.createContext({
   playingVideoId: null,
-  setPlayingVideoId: () => {}
+  setPlayingVideoId: () => { }
 });
 
 function VideoPlaybackProvider({ children }) {
   const playingVideoId = null;
-  const setPlayingVideoId = () => {};
+  const setPlayingVideoId = () => { };
 
-  return null;
+  return <videoPlaybackContext.Provider value={{ playingVideoId, setPlayingVideoId }}>{children}</videoPlaybackContext.Provider>;
 }
 
 function VideoItem({ videoId, title, poster, src }) {
-  const videoIsActive = false;
+  const { playingVideoId, setPlayingVideoId } = React.useContext(videoPlaybackContext)
+  const videoIsActive = playingVideoId === videoId;
 
-  const handleTogglePlay = () => {};
+  const handleTogglePlay = () => {
+    setPlayingVideoId(!videoIsActive)
+  };
 
   return (
     <li>
@@ -60,10 +63,18 @@ function NewsFeed() {
     }
   ];
 
+
   return (
     <div>
       <h1>News Feed</h1>
-      <ul></ul>
+      <ul>{videos.map(video => {
+        return <VideoItem
+          videoId={video.id}
+          title={video.title}
+          poster={video.poster}
+          src={video.src}
+        ></VideoItem>
+      })}</ul>
     </div>
   );
 }
