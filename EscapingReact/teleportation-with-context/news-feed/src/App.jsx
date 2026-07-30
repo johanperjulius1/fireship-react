@@ -13,13 +13,23 @@ function VideoPlaybackProvider({ children }) {
 
 function VideoItem({ videoId, title, poster, src }) {
   const { playingVideoId, setPlayingVideoId } = React.useContext(videoPlaybackContext)
+  const videoRef = React.useRef(null);
   const videoIsActive = playingVideoId === videoId;
 
-  const handleTogglePlay = () => {
-    if (playingVideoId === videoId) {
-      setPlayingVideoId(null)
+  React.useEffect(() => {
+    if (videoIsActive) {
+      videoRef.current.play();
     } else {
-      setPlayingVideoId(videoId)
+      videoRef.current.pause();
+    }
+  }, [videoIsActive]);
+
+
+  const handleTogglePlay = () => {
+    if (videoIsActive) {
+      setPlayingVideoId(null);
+    } else {
+      setPlayingVideoId(videoId);
     }
   };
 
@@ -27,7 +37,7 @@ function VideoItem({ videoId, title, poster, src }) {
     <li>
       <h3>{title}</h3>
       <article>
-        <video poster={poster}>
+        <video ref={videoRef} poster={poster}>
           <source src={src} type="video/mp4" />
         </video>
         <button
