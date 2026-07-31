@@ -1,11 +1,14 @@
-import { useState } from "react"
+import { useState, useReducer } from "react"
 
 export default function Counter() {
   const [count, setCount] = useState(0)
 
-  const handleClick = () => {
-    console.count("click")
-    setCount(count)
+  const handleIncrement = () => {
+    setCount(count => count + 1)
+  }
+
+  const handleDecrement = () => {
+    setCount(count => count - 1)
   }
 
   // let count = 0;
@@ -18,7 +21,8 @@ export default function Counter() {
   return (
     <>
       <p>{count}</p>
-      <button onClick={handleClick}>Click</button>
+      <button onClick={handleIncrement}>+</button>
+      <button onClick={handleDecrement}>-</button>
     </>
   );
 }
