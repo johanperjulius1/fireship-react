@@ -1,36 +1,69 @@
 import * as React from "react";
 import "./App.css"
 
-const initialFormData = {
-  name: "",
-  email: "",
-  address: "",
-  city: "",
-  zipcode: ""
+const initialState = {
+  currentStep: 1,
+  formData: {
+    name: "",
+    email: "",
+    address: "",
+    city: "",
+    zipcode: ""
+  }
 };
 
+function reducer(state, action) {
+  switch (action.type) {
+    case "next_step":
+      return { ...state, currentStep: state.currentStep + 1 };
+
+    case "prev_step":
+      return { ...state, currentStep: state.currentStep - 1 };
+
+    case "change":
+      return {
+        ...state,
+        formData: { ...state.formData, [action.name]: action.value }
+      };
+
+    case "reset":
+      return {
+        currentStep: 1,
+        formData: {
+          name: "",
+          email: "",
+          address: "",
+          city: "",
+          zipcode: ""
+        }
+      };
+
+    default:
+      return state;
+  }
+}
+
 export default function MultistepFormReducer() {
-  const [currentStep, setCurrentStep] = React.useState(1);
-  const [formData, setFormData] = React.useState(initialFormData);
+  const [state, dispatch] = React.useReducer(reducer, initialState);
 
-  const handleNextStep = () => {
-    setCurrentStep(currentStep + 1);
-  };
-
-  const handlePrevStep = () => {
-    setCurrentStep(currentStep - 1);
-  };
+  const handleNextStep = () => dispatch({ type: "next_step" });
+  const handlePrevStep = () => dispatch({ type: "prev_step" });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    dispatch({
+      type: "change",
+      name: e.target.name,
+      value: e.target.value
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     alert("Thank you for your submission");
-    setCurrentStep(1);
-    setFormData(initialFormData);
+    dispatch({ type: "reset" });
   };
+
+  const { currentStep, formData } = state;
 
   if (currentStep === 1) {
     return (
