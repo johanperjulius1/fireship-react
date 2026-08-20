@@ -3,7 +3,7 @@ import { useState } from "react"
 const initialFormData = {
   name: "",
   email: "",
-  adress: "",
+  address: "",
   city: "",
   zipcode: ""
 }
@@ -59,6 +59,17 @@ function MultistepForm() {
             onChange={handleChange}
           />
         </div>
+        <div>
+          <label htmlFor="email">e-mail address</label>
+          <input
+            required
+            name="email"
+            id="email"
+            placeholder="Enter your email address"
+            value={formData.email}
+            onChange={handleChange}
+          />
+        </div>
         <button type="button" onClick={handleNextStep}>
           Next
         </button>
@@ -78,13 +89,35 @@ function MultistepForm() {
           <progress value={currentStep} max={3}></progress>
         </div>
         <div>
-          <label htmlFor="address"></label>
+          <label htmlFor="address">Address</label>
           <input 
             type="address"
             value={formData.adress}
             name="address"
             onChange={handleChange}
             placeholder="What is your adress"
+            
+          />
+        </div>
+        <div>
+          <label htmlFor="city">City</label>
+          <input 
+            type="city"
+            value={formData.city}
+            name="city"
+            onChange={handleChange}
+            placeholder="What is your city?"
+            
+          />
+        </div>
+        <div>
+          <label htmlFor="zipcode">Zipcode</label>
+          <input 
+            type="number"
+            value={formData.zipcode}
+            name="zipcode"
+            onChange={handleChange}
+            placeholder="What is your zipcode?"
             
           />
         </div>
