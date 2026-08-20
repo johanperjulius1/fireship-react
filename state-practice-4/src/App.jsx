@@ -22,7 +22,26 @@
 import { useState, useEffect, useRef } from "react"
 
 function App() {
+  const [seconds, setSeconds] = useState(0)
+  const [isRunning, setIsRunning] = useState(false)
+  const timerRef = useRef(null) 
+  
 
+  const handleToggle = () => {
+    if(isRunning === false){
+      setIsRunning(true)
+      timerRef.current = setInterval(()=> {
+        setSeconds(seconds => seconds+1)
+      },1000)
+    } else {
+      setIsRunning(false)
+      clearInterval(timerRef.current)
+    }
+  }
+
+  useEffect(() => {
+    return () => clearInterval(timerRef.current)
+  }, [])
 
   return (
     <div>
