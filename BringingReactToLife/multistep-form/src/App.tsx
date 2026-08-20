@@ -12,7 +12,7 @@ export default function MultiStepForm() {
   const [currentStep, setCurrentStep] = React.useState(1);
   const [formData, setFormData] = React.useState(initialFormData);
 
-  const handleChange = (e) => {
+  const handleChange = (e:any) => {
     const name = e.target.name;
     const value = e.target.value
 
